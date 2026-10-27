@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Remembird mascot: a happy gauraiya (house sparrow), ink on paper. The launcher icon adds
+     drawable/bird_sticker.xml underneath for the sticker look.
+     Master art is play-store-assets/icon.svg; keep the two in step. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Legs, tail, body, belly, wing -->
+    <path android:pathData="M58,98 L57,109 M52,112 L57,109 L62,112 M70,98 L70,109 M65,112 L70,109 L75,112" android:strokeColor="#B98A6A" android:strokeWidth="3.2" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M38,78 L20,90 Q18,95 24,94 L42,86 Z" android:fillColor="#6B4A30" android:strokeColor="#3B2F2F" android:strokeWidth="2.6" android:strokeLineJoin="round" />
+    <path android:pathData="M32,72 C32,50 48,38 66,40 C88,42 98,58 96,76 C94,94 76,102 58,100 C42,98 32,88 32,72 Z" android:fillColor="#B78457" android:strokeColor="#3B2F2F" android:strokeWidth="2.6" android:strokeLineJoin="round" />
+    <path android:pathData="M40,86 C50,100 78,102 93,82 C88,74 80,72 74,76 C62,82 52,86 40,86 Z" android:fillColor="#E7DFD2" />
+    <path android:pathData="M44,66 C54,58 72,62 78,72 C70,82 54,84 40,76 Z" android:fillColor="#8C5A35" android:strokeColor="#3B2F2F" android:strokeWidth="2.6" android:strokeLineJoin="round" />
+    <path android:pathData="M51,67 L60,71 M57,63 L66,68 M64,64 L72,69" android:strokeColor="#2B2222" android:strokeWidth="2" android:strokeLineCap="round" />
+    <path android:pathData="M49,76 C58,79 67,79 74,76" android:strokeColor="#FFFDF7" android:strokeWidth="2.6" android:strokeLineCap="round" />
+
+    <!-- Head, tipped up: grey cap, chestnut nape, black bib, eye closed in a smile, blush -->
+    <group android:rotation="-10" android:pivotX="76" android:pivotY="50">
+        <path android:pathData="M56,44 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0 Z" android:fillColor="#EFE8DB" android:strokeColor="#3B2F2F" android:strokeWidth="2.6" />
+        <path android:pathData="M57,38 C59,26 71,20 83,22 C91,23 96,28 97,33 C88,30 70,31 57,38 Z" android:fillColor="#8E8A86" android:strokeColor="#3B2F2F" android:strokeWidth="2" android:strokeLineJoin="round" />
+        <path android:pathData="M57,41 C64,37 71,37 76,40 C71,44 64,47 58,52 Z" android:fillColor="#8B4A2B" />
+        <path android:pathData="M85,59 C89,62 88,68 82,69 C78,67 78,62 82,59 Z" android:fillColor="#2B2222" android:strokeColor="#3B2F2F" android:strokeWidth="2" android:strokeLineJoin="round" />
+        <path android:pathData="M96,44 L104,46.5 L96,50 Z" android:fillColor="#4A3A30" android:strokeColor="#3B2F2F" android:strokeWidth="2.6" android:strokeLineJoin="round" />
+        <path android:pathData="M82.5,46 Q87,40 91.5,46" android:strokeColor="#3B2F2F" android:strokeWidth="2.8" android:strokeLineCap="round" />
+        <path android:pathData="M85.6,53 a4.4,2.6 0 1,0 8.8,0 a4.4,2.6 0 1,0 -8.8,0 Z" android:fillColor="#F2F7A1B5" />
+    </group>
+
+    <!-- A little red-pen heart -->
+    <path android:pathData="M104,22 C104,18 99,17 99,21 C99,24 104,27 104,27 C104,27 109,24 109,21 C109,17 104,18 104,22 Z" android:fillColor="#D64545" android:strokeColor="#3B2F2F" android:strokeWidth="1.6" android:strokeLineJoin="round" />
+</vector>

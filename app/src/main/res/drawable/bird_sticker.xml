@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The die-cut white edge and shadow that sit under drawable/bird.xml in the launcher icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <group android:translateX="1.2" android:translateY="2.5">
+        <path android:pathData="M58,98 L57,109 M52,112 L57,109 L62,112 M70,98 L70,109 M65,112 L70,109 L75,112" android:strokeColor="#333B2F2F" android:strokeWidth="12" android:strokeLineCap="round" android:strokeLineJoin="round" />
+        <path android:pathData="M38,78 L20,90 Q18,95 24,94 L42,86 Z M32,72 C32,50 48,38 66,40 C88,42 98,58 96,76 C94,94 76,102 58,100 C42,98 32,88 32,72 Z M104,22 C104,18 99,17 99,21 C99,24 104,27 104,27 C104,27 109,24 109,21 C109,17 104,18 104,22 Z" android:fillColor="#333B2F2F" android:strokeColor="#333B2F2F" android:strokeWidth="9" android:strokeLineJoin="round" />
+        <group android:rotation="-10" android:pivotX="76" android:pivotY="50">
+            <path android:pathData="M56,44 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0 Z M96,44 L104,46.5 L96,50 Z" android:fillColor="#333B2F2F" android:strokeColor="#333B2F2F" android:strokeWidth="9" android:strokeLineJoin="round" />
+        </group>
+    </group>
+    <path android:pathData="M58,98 L57,109 M52,112 L57,109 L62,112 M70,98 L70,109 M65,112 L70,109 L75,112" android:strokeColor="#FFFDF7" android:strokeWidth="12" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M38,78 L20,90 Q18,95 24,94 L42,86 Z M32,72 C32,50 48,38 66,40 C88,42 98,58 96,76 C94,94 76,102 58,100 C42,98 32,88 32,72 Z M104,22 C104,18 99,17 99,21 C99,24 104,27 104,27 C104,27 109,24 109,21 C109,17 104,18 104,22 Z" android:fillColor="#FFFDF7" android:strokeColor="#FFFDF7" android:strokeWidth="9" android:strokeLineJoin="round" />
+    <group android:rotation="-10" android:pivotX="76" android:pivotY="50">
+        <path android:pathData="M56,44 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0 Z M96,44 L104,46.5 L96,50 Z" android:fillColor="#FFFDF7" android:strokeColor="#FFFDF7" android:strokeWidth="9" android:strokeLineJoin="round" />
+    </group>
+
+</vector>

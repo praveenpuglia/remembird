@@ -18,14 +18,12 @@ import com.praveenpuglia.remembird.Season
 
 /** The scrapbook: kraft paper, ink, a pink highlighter and a red pen. Always light, like real paper. */
 object Paper {
-    val kraft = Color(0xFFE8DAC0)
+    val kraft = Color(0xFFF3EAD8)
     val speck = Color(0x1A785A28) // the paper's fibre dots
     val ink = Color(0xFF3B2F2F)
     val card = Color(0xFFFFFDF7)
     val highlighter = Color(0xFFF7A1B5)
     val pen = Color(0xFFD64545)
-    /** Fills for polaroids without a photo. */
-    val pastels = listOf(Color(0xFFF7A1B5), Color(0xFF9ED9C3), Color(0xFFA9C8F0), Color(0xFFF6D186))
 }
 
 private fun variable(res: Int, weight: Int) =
@@ -86,8 +84,8 @@ fun Season.color() = when (this) {
  * close together so the stripes read as texture and the handwritten month on top stays legible.
  */
 fun Season.tape(stripePx: Float): Brush {
-    val stripe = lerp(color(), Color.White, 0.55f)
-    val ground = lerp(color(), Color.White, 0.75f)
+    val stripe = lerp(color(), Color.White, 0.45f)
+    val ground = lerp(color(), Color.White, 0.68f)
     return Brush.linearGradient(
         0f to stripe, 0.5f to stripe, 0.5f to ground, 1f to ground,
         start = Offset.Zero, end = Offset(stripePx, stripePx), tileMode = TileMode.Repeated,

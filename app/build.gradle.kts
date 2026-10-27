@@ -25,6 +25,7 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "0.0.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -73,4 +74,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugCompileOnly(libs.androidx.compose.ui.tooling)
     testImplementation(libs.junit)
+    // Only for scripts/seed-contacts.sh
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.runner)
 }

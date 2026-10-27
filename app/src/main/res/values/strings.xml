@@ -38,7 +38,7 @@
     <string name="season_sharad" translatable="false">Sharad</string>
     <string name="season_hemant" translatable="false">Hemant</string>
     <!-- %1$s season emoji, %2$s ritu name (e.g. Varsha), %3$s its meaning (e.g. Monsoon) -->
-    <string name="season_label">%1$s %2$s · %3$s</string>
+    <string name="season_label">%1$s · %2$s</string>
     <string name="season_shishir_meaning">Winter</string>
     <string name="season_vasant_meaning">Spring</string>
     <string name="season_grishma_meaning">Summer</string>

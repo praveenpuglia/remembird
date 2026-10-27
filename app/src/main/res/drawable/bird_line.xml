@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One-colour line drawing of the bird, for the themed (monochrome) launcher icon.
+     Body and tail outlines stop where the head would cover them, since one colour can't overlap. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <path android:pathData="M58,98 L57,109 M52,112 L57,109 L62,112 M70,98 L70,109 M65,112 L70,109 L75,112 M36,81 L20,90 Q18,95 24,94 L39,87 M58,46 C46,47 33,56 32,72 C32,88 42,98 58,100 C76,102 94,94 96,76 C97,69 95,64 91,59 M44,66 C54,58 72,62 78,72 C70,82 54,84 40,76 Z M51,67 L60,71 M57,63 L66,68 M64,64 L72,69" android:strokeColor="#FFFFFFFF" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <group android:rotation="-10" android:pivotX="76" android:pivotY="50">
+        <path android:pathData="M56,44 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0 Z M82.5,46 Q87,40 91.5,46" android:strokeColor="#FFFFFFFF" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round" />
+        <path android:pathData="M57,38 C59,26 71,20 83,22 C91,23 96,28 97,33 C88,30 70,31 57,38 Z M85,59 C89,62 88,68 82,69 C78,67 78,62 82,59 Z M96,44 L104,46.5 L96,50 Z" android:fillColor="#FFFFFFFF" android:strokeColor="#FFFFFFFF" android:strokeWidth="2" android:strokeLineJoin="round" />
+    </group>
+    <path android:pathData="M104,22 C104,18 99,17 99,21 C99,24 104,27 104,27 C104,27 109,24 109,21 C109,17 104,18 104,22 Z" android:fillColor="#FFFFFFFF" android:strokeColor="#FFFFFFFF" android:strokeWidth="2" android:strokeLineJoin="round" />
+</vector>

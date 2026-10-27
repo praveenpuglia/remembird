@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Matches Paper.kraft so the window behind Compose is already paper on launch. -->
-    <color name="kraft">#FFE8DAC0</color>
+    <color name="kraft">#FFF3EAD8</color>
 </resources>

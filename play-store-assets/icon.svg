@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Play Store icon and master art for the bird (app/src/main/res/drawable/bird.xml mirrors the bird group).
+       Render: play-store-assets/render-icon.sh -->
+  <defs>
+    <pattern id="specks" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="2.4" fill="#785A28" fill-opacity=".10"/>
+    </pattern>
+    <!-- A little pen wobble, then a die-cut white edge and a soft shadow -->
+    <filter id="sticker" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="w"/>
+      <feMorphology in="w" operator="dilate" radius="4.5" result="d"/>
+      <feFlood flood-color="#FFFDF7"/>
+      <feComposite in2="d" operator="in" result="cut"/>
+      <feGaussianBlur in="d" stdDeviation="2" result="b"/>
+      <feOffset in="b" dx="1" dy="2.5" result="bo"/>
+      <feFlood flood-color="#3B2F2F" flood-opacity=".28"/>
+      <feComposite in2="bo" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="cut"/><feMergeNode in="w"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="#F3EAD8"/>
+  <rect width="512" height="512" fill="url(#specks)"/>
+  <g transform="translate(40 35) scale(3.4)">
+    <g filter="url(#sticker)" stroke="#3B2F2F" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M58 98 L57 109 M52 112 L57 109 L62 112 M70 98 L70 109 M65 112 L70 109 L75 112" fill="none" stroke="#B98A6A" stroke-width="3.2"/>
+      <path d="M38 78 L20 90 Q18 95 24 94 L42 86 Z" fill="#6B4A30"/>
+      <path d="M32 72 C32 50 48 38 66 40 C88 42 98 58 96 76 C94 94 76 102 58 100 C42 98 32 88 32 72 Z" fill="#B78457"/>
+      <path d="M40 86 C50 100 78 102 93 82 C88 74 80 72 74 76 C62 82 52 86 40 86 Z" fill="#E7DFD2" stroke="none"/>
+      <path d="M44 66 C54 58 72 62 78 72 C70 82 54 84 40 76 Z" fill="#8C5A35"/>
+      <path d="M51 67 L60 71 M57 63 L66 68 M64 64 L72 69" fill="none" stroke="#2B2222" stroke-width="2"/>
+      <path d="M49 76 C58 79 67 79 74 76" fill="none" stroke="#FFFDF7" stroke-width="2.6"/>
+      <g transform="rotate(-10 76 50)">
+        <circle cx="77" cy="44" r="21" fill="#EFE8DB"/>
+        <path d="M57 38 C59 26 71 20 83 22 C91 23 96 28 97 33 C88 30 70 31 57 38 Z" fill="#8E8A86" stroke-width="2"/>
+        <path d="M57 41 C64 37 71 37 76 40 C71 44 64 47 58 52 Z" fill="#8B4A2B" stroke="none"/>
+        <path d="M85 59 C89 62 88 68 82 69 C78 67 78 62 82 59 Z" fill="#2B2222" stroke-width="2"/>
+        <path d="M96 44 L104 46.5 L96 50 Z" fill="#4A3A30"/>
+        <path d="M82.5 46 Q87 40 91.5 46" fill="none" stroke-width="2.8"/>
+        <ellipse cx="90" cy="53" rx="4.4" ry="2.6" fill="#F7A1B5" stroke="none" opacity=".95"/>
+      </g>
+      <path d="M104 22 C104 18 99 17 99 21 C99 24 104 27 104 27 C104 27 109 24 109 21 C109 17 104 18 104 22 Z" fill="#D64545" stroke-width="1.6"/>
+    </g>
+  </g>
+</svg>

@@ -41,15 +41,16 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalConfiguration
@@ -84,7 +85,10 @@ import kotlinx.datetime.number
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaYearMonth
 import java.time.format.DateTimeFormatter
+import kotlin.math.PI
 import kotlin.math.roundToInt
+import kotlin.math.sin
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -257,12 +261,13 @@ private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: P
             val season = seasonOf(month.month.number)
             val first = previousSeason == null
             val seasonStarts = season != previousSeason
+            val inkFrom = (previousSeason ?: season).color()
             previousSeason = season
             item(key = month.toString()) {
-                MonthHeader(month, season, seasonStarts, showYear = month.year != today.year, first = first)
+                MonthHeader(month, season, seasonStarts, showYear = month.year != today.year, first = first, inkFrom = inkFrom)
             }
             items(monthOccasions, key = { "${it.contactId}-${it.bucket}-${it.month}-${it.day}-${it.label}" }) { occasion ->
-                OccasionRow(occasion, today, dateFormat, Modifier.timeline(season.color()))
+                OccasionRow(occasion, today, dateFormat, Modifier.timeline(season.color(), seed = occasion.hashCode()))
             }
         }
     }
@@ -271,29 +276,48 @@ private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: P
 private val TIMELINE_GUTTER = 32.dp
 private val TIMELINE_X = 18.dp
 
-/** The season's stretch of the timeline: a dashed pen line down the left gutter. [fromTop] skips the first header's top. */
-private fun Modifier.timelineLine(color: Color, fromTop: Float = 0f) = drawBehind {
+/**
+ * The season's stretch of the timeline: a hand-drawn pen line down the left gutter, gone over twice like ink.
+ * [seed] gives each item its own wobble; [fromTop] skips the first header's top. Where a new season starts,
+ * the ink fades [from] the last season's colour into this one.
+ */
+private fun Modifier.timelineLine(color: Color, seed: Int, fromTop: Float = 0f, from: Color = color) = drawWithCache {
     val x = TIMELINE_X.toPx()
-    drawLine(
-        color,
-        Offset(x, size.height * fromTop),
-        Offset(x, size.height),
-        strokeWidth = 2.dp.toPx(),
-        pathEffect = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 5.dp.toPx())),
-    )
+    val top = size.height * fromTop
+    val wobble = 1.3.dp.toPx()
+    val steps = ((size.height - top) / 4.dp.toPx()).roundToInt().coerceAtLeast(1)
+    val random = Random(seed)
+    // Whole half-waves are zero at both ends, so every item's line meets the next one's exactly on the timeline.
+    fun pass() = Path().apply {
+        val weights = listOf(2, 3, 5).map { it to random.nextFloat() * 2 - 1 }
+        for (i in 0..steps) {
+            val t = i / steps.toFloat()
+            val dx = wobble * weights.sumOf { (halfWaves, weight) -> weight * sin(PI * halfWaves * t) }.toFloat() / 2
+            if (i == 0) moveTo(x + dx, top) else lineTo(x + dx, top + t * (size.height - top))
+        }
+    }
+    val ink = pass()
+    val retrace = pass()
+    val inkStroke = Stroke(2.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+    val retraceStroke = Stroke(1.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+    val brush = Brush.verticalGradient(listOf(from, color), startY = top, endY = size.height)
+    onDrawBehind {
+        drawPath(ink, brush, alpha = 0.9f, style = inkStroke)
+        drawPath(retrace, brush, alpha = 0.45f, style = retraceStroke)
+    }
 }
 
-private fun Modifier.timeline(color: Color) = timelineLine(color).padding(start = TIMELINE_GUTTER)
+private fun Modifier.timeline(color: Color, seed: Int) = timelineLine(color, seed).padding(start = TIMELINE_GUTTER)
 
 @Composable
-private fun MonthHeader(month: YearMonth, season: Season, seasonStarts: Boolean, showYear: Boolean, first: Boolean) {
+private fun MonthHeader(month: YearMonth, season: Season, seasonStarts: Boolean, showYear: Boolean, first: Boolean, inkFrom: Color) {
     val locale = LocalConfiguration.current.locales[0]
     val title = remember(month, showYear, locale) {
         val pattern = DateFormat.getBestDateTimePattern(locale, if (showYear) "LLLLyyyy" else "LLLL")
         month.toJavaYearMonth().format(DateTimeFormatter.ofPattern(pattern, locale))
     }
     Column(
-        Modifier.fillMaxWidth().timelineLine(season.color(), fromTop = if (first) 0.4f else 0f).padding(top = 22.dp, bottom = 6.dp),
+        Modifier.fillMaxWidth().timelineLine(season.color(), seed = month.hashCode(), fromTop = if (first) 0.4f else 0f, from = inkFrom).padding(top = 22.dp, bottom = 6.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         // A strip of washi tape in the season's colour, stuck across the timeline.

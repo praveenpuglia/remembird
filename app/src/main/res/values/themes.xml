@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Window theme only; Compose draws everything else. The scrapbook is always light paper. -->
+    <style name="Theme.Remembird" parent="android:Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowBackground">@color/kraft</item>
+    </style>
+</resources>

@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Remembird</string>
+
+    <string name="permission_title">Never miss a big day</string>
+    <string name="permission_body">Remembird reads the birthdays, anniversaries and other dates saved in your contacts. Everything stays on your phone.</string>
+    <string name="permission_grant">Allow contacts access</string>
+    <string name="permission_open_settings">Open settings</string>
+    <string name="permission_denied_body">Contacts access is turned off. You can turn it on in settings.</string>
+
+    <string name="bucket_all">All</string>
+    <string name="bucket_birthday">Birthdays</string>
+    <string name="bucket_anniversary">Anniversaries</string>
+    <string name="bucket_other">Other</string>
+
+    <string name="kind_birthday">Birthday</string>
+    <string name="kind_anniversary">Anniversary</string>
+    <string name="kind_other">Special day</string>
+    <string name="turns">Turns %1$d</string>
+    <plurals name="years">
+        <item quantity="one">%1$d year</item>
+        <item quantity="other">%1$d years</item>
+    </plurals>
+    <!-- %1$s is the occasion (e.g. Birthday), %2$s the age or years (e.g. Turns 30) -->
+    <string name="kind_with_years">%1$s · %2$s</string>
+
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <plurals name="in_days">
+        <item quantity="one">In %1$d day</item>
+        <item quantity="other">In %1$d days</item>
+    </plurals>
+
+    <!-- Ritu names stay as they are; the meanings are what translators should translate. -->
+    <string name="season_shishir" translatable="false">Shishir</string>
+    <string name="season_vasant" translatable="false">Vasant</string>
+    <string name="season_grishma" translatable="false">Grishma</string>
+    <string name="season_varsha" translatable="false">Varsha</string>
+    <string name="season_sharad" translatable="false">Sharad</string>
+    <string name="season_hemant" translatable="false">Hemant</string>
+    <!-- %1$s season emoji, %2$s ritu name (e.g. Varsha), %3$s its meaning (e.g. Monsoon) -->
+    <string name="season_label">%1$s %2$s · %3$s</string>
+    <string name="season_shishir_meaning">Winter</string>
+    <string name="season_vasant_meaning">Spring</string>
+    <string name="season_grishma_meaning">Summer</string>
+    <string name="season_varsha_meaning">Monsoon</string>
+    <string name="season_sharad_meaning">Autumn</string>
+    <string name="season_hemant_meaning">Pre-winter</string>
+
+    <string name="empty">No dates here yet. Add birthdays and anniversaries to your contacts and they\'ll show up here.</string>
+</resources>

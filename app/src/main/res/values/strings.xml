@@ -69,6 +69,11 @@
     <string name="profile_edit_hint">To change or remove a date, edit it in your contacts app.</string>
     <!-- %1$s full date (e.g. 12 March 1990), %2$s how soon (e.g. In 5 days) -->
     <string name="profile_date_when">%1$s · %2$s</string>
+    <string name="about">About</string>
+    <!-- %1$s is the app version, e.g. 0.1.0 -->
+    <string name="about_version">Version %1$s</string>
+    <string name="about_source">Source code on GitHub</string>
+    <string name="source_url" translatable="false">https://github.com/praveenpuglia/remembird</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="terms">Terms</string>
     <!-- docs/ served by Cloudflare Pages, like Clean SMS -->

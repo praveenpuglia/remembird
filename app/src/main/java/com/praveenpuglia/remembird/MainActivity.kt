@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
+import com.praveenpuglia.remembird.ui.AboutScreen
 import com.praveenpuglia.remembird.ui.AddDateScreen
 import com.praveenpuglia.remembird.ui.OccasionsScreen
 import com.praveenpuglia.remembird.ui.ProfileScreen
@@ -55,7 +56,9 @@ class MainActivity : ComponentActivity() {
                 var profilePhoto by rememberSaveable { mutableStateOf<String?>(null) }
                 var adding by rememberSaveable { mutableStateOf(false) }
                 var addingFor by rememberSaveable { mutableStateOf<Long?>(null) }
+                var about by rememberSaveable { mutableStateOf(false) }
                 when {
+                    about -> AboutScreen(onBack = { about = false })
                     adding -> {
                         LaunchedEffect(Unit) { people = withContext(Dispatchers.IO) { ContactOccasions.people(contentResolver) } }
                         AddDateScreen(
@@ -83,6 +86,7 @@ class MainActivity : ComponentActivity() {
                         onGrant = ::askForContacts,
                         onAdd = { addingFor = null; adding = true },
                         onOpen = { profileId = it.contactId; profileName = it.name; profilePhoto = it.photoUri },
+                        onAbout = { about = true },
                     )
                 }
             }

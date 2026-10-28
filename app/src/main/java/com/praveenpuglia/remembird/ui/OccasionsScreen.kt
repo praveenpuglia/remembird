@@ -23,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -62,6 +63,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -104,6 +106,7 @@ fun OccasionsScreen(
     onGrant: () -> Unit,
     onAdd: () -> Unit,
     onOpen: (Occasion) -> Unit,
+    onAbout: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.paper(),
@@ -134,6 +137,12 @@ fun OccasionsScreen(
                             fontWeight = FontWeight.Bold,
                             fontSize = 40.sp,
                         )
+                    }
+                },
+                actions = {
+                    val description = stringResource(R.string.about)
+                    IconButton(onClick = onAbout, modifier = Modifier.semantics { contentDescription = description }) {
+                        Text("ⓘ", fontSize = 24.sp, color = Paper.ink)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent, scrolledContainerColor = Color.Transparent),
@@ -287,7 +296,6 @@ private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: P
                 OccasionRow(occasion, today, dateFormat, Modifier.clickable { onOpen(occasion) }.timeline(season.color(), seed = occasion.hashCode()))
             }
         }
-        item { Box(Modifier.fillMaxWidth().padding(top = 24.dp), Alignment.Center) { PolicyLinks() } }
     }
 }
 

@@ -37,7 +37,7 @@
     <string name="season_varsha" translatable="false">Varsha</string>
     <string name="season_sharad" translatable="false">Sharad</string>
     <string name="season_hemant" translatable="false">Hemant</string>
-    <!-- %1$s season emoji, %2$s ritu name (e.g. Varsha), %3$s its meaning (e.g. Monsoon) -->
+    <!-- %1$s ritu name (e.g. Varsha), %2$s its meaning (e.g. Monsoon) -->
     <string name="season_label">%1$s · %2$s</string>
     <string name="season_shishir_meaning">Winter</string>
     <string name="season_vasant_meaning">Spring</string>
@@ -46,5 +46,33 @@
     <string name="season_sharad_meaning">Autumn</string>
     <string name="season_hemant_meaning">Pre-winter</string>
 
-    <string name="empty">No dates here yet. Add birthdays and anniversaries to your contacts and they\'ll show up here.</string>
+    <string name="empty">No dates here yet. Tap Remember to save someone\'s birthday or anniversary.</string>
+
+    <string name="remember">Remember</string>
+    <string name="back">Back</string>
+    <string name="add_search">Search contacts</string>
+    <string name="add_no_dates">No dates yet</string>
+    <string name="add_has_dates">Already have dates</string>
+    <string name="add_no_match">No one by that name in your contacts.</string>
+    <string name="add_occasion">What\'s the occasion?</string>
+    <string name="add_label">What is it? (optional)</string>
+    <string name="add_label_hint">e.g. Work anniversary</string>
+    <string name="add_pick_date">Pick the date</string>
+    <string name="add_no_year">I don\'t know the year</string>
+    <string name="add_save">Save in Contacts</string>
+    <string name="add_handoff">Your contacts app opens with this filled in. Tap Save there to keep it. Remembird never changes your contacts on its own.</string>
+    <string name="profile_dates">Dates to remember</string>
+    <!-- %1$s is the contact's name -->
+    <string name="profile_none">No dates saved for %1$s yet.</string>
+    <string name="profile_remember">Remember another date</string>
+    <string name="profile_edit">Edit in Contacts</string>
+    <string name="profile_edit_hint">To change or remove a date, edit it in your contacts app.</string>
+    <!-- %1$s full date (e.g. 12 March 1990), %2$s how soon (e.g. In 5 days) -->
+    <string name="profile_date_when">%1$s · %2$s</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="terms">Terms</string>
+    <!-- Served from docs/ on GitHub Pages -->
+    <string name="privacy_policy_url" translatable="false">https://praveenpuglia.com/remembird/privacy-policy.html</string>
+    <string name="terms_url" translatable="false">https://praveenpuglia.com/remembird/tnc.html</string>
+    <string name="add_no_contacts_app">No contacts app found to save this in.</string>
 </resources>

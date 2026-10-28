@@ -2,6 +2,7 @@ package com.praveenpuglia.remembird.ui
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,11 +20,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -54,6 +57,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -98,10 +102,23 @@ fun OccasionsScreen(
     occasions: List<Occasion>?,
     today: LocalDate,
     onGrant: () -> Unit,
+    onAdd: () -> Unit,
+    onOpen: (Occasion) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.paper(),
         containerColor = Color.Transparent,
+        floatingActionButton = {
+            if (hasPermission && occasions != null) {
+                ExtendedFloatingActionButton(
+                    onClick = onAdd,
+                    containerColor = Paper.highlighter,
+                    contentColor = Paper.ink,
+                    icon = { Text("✍️", Modifier.clearAndSetSemantics {}, fontSize = 20.sp) },
+                    text = { Text(stringResource(R.string.remember), fontWeight = FontWeight.Bold) },
+                )
+            }
+        },
         topBar = {
             TopAppBar(
                 modifier = Modifier.paper(), // opaque paper, so the list doesn't show through as it scrolls under
@@ -126,13 +143,13 @@ fun OccasionsScreen(
         when {
             !hasPermission -> PermissionPrompt(permanentlyDenied, onGrant, Modifier.padding(padding))
             occasions == null -> Box(Modifier.fillMaxSize().padding(padding), Alignment.Center) { CircularProgressIndicator() }
-            else -> OccasionList(occasions, today, padding)
+            else -> OccasionList(occasions, today, padding, onOpen)
         }
     }
 }
 
 /** Kraft paper with a faint grid of fibre specks, drawn from one small repeating tile. */
-private fun Modifier.paper() = drawWithCache {
+internal fun Modifier.paper() = drawWithCache {
     val step = 7.dp.toPx().roundToInt().coerceAtLeast(2)
     val tile = ImageBitmap(step, step)
     Canvas(tile).drawCircle(Offset(step / 2f, step / 2f), 1.dp.toPx(), Paint().apply { color = Paper.speck })
@@ -179,7 +196,7 @@ private fun Modifier.brushStroke() = drawWithCache {
 
 /** Handwritten text with a highlighter brush stroke through its lower half. */
 @Composable
-private fun Highlighted(text: String, fontSize: Int, modifier: Modifier = Modifier) {
+internal fun Highlighted(text: String, fontSize: Int, modifier: Modifier = Modifier) {
     Text(
         text,
         modifier.brushStroke(),
@@ -206,11 +223,25 @@ private fun PermissionPrompt(permanentlyDenied: Boolean, onGrant: () -> Unit, mo
         Button(onClick = onGrant) {
             Text(stringResource(if (permanentlyDenied) R.string.permission_open_settings else R.string.permission_grant))
         }
+        PolicyLinks()
+    }
+}
+
+/** Privacy policy and terms, opened in the browser (Play wants the policy reachable from inside the app). */
+@Composable
+internal fun PolicyLinks(modifier: Modifier = Modifier) {
+    val uriHandler = LocalUriHandler.current
+    val privacyUrl = stringResource(R.string.privacy_policy_url)
+    val termsUrl = stringResource(R.string.terms_url)
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        TextButton(onClick = { uriHandler.openUri(privacyUrl) }) { Text(stringResource(R.string.privacy_policy)) }
+        Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        TextButton(onClick = { uriHandler.openUri(termsUrl) }) { Text(stringResource(R.string.terms)) }
     }
 }
 
 @Composable
-private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: PaddingValues) {
+private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: PaddingValues, onOpen: (Occasion) -> Unit) {
     var filter by rememberSaveable { mutableStateOf<Bucket?>(null) }
     val shown = remember(occasions, today, filter) {
         occasions.filter { filter == null || it.bucket == filter }.upcomingByMonth(today)
@@ -218,29 +249,15 @@ private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: P
     val locale = LocalConfiguration.current.locales[0]
     val dateFormat = remember(locale) { DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "dMMM"), locale) }
 
-    LazyColumn(contentPadding = padding) {
+    // Room at the bottom so the Add a date button never covers the last row.
+    LazyColumn(contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding() + 88.dp)) {
         item {
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(listOf(null) + Bucket.entries) { bucket ->
-                    val selected = filter == bucket
-                    FilterChip(
-                        selected = selected,
-                        onClick = { filter = bucket },
-                        label = { Text(stringResource(bucket.titleRes()), fontWeight = FontWeight.Bold) },
-                        shape = CircleShape,
-                        colors = FilterChipDefaults.filterChipColors(containerColor = Paper.card, selectedContainerColor = Paper.highlighter),
-                        border = FilterChipDefaults.filterChipBorder(
-                            enabled = true,
-                            selected = selected,
-                            borderColor = Paper.ink,
-                            selectedBorderColor = Paper.ink,
-                            borderWidth = 1.5.dp,
-                            selectedBorderWidth = 1.5.dp,
-                        ),
-                    )
+                    PaperChip(stringResource(bucket.titleRes()), selected = filter == bucket) { filter = bucket }
                 }
             }
         }
@@ -267,10 +284,31 @@ private fun OccasionList(occasions: List<Occasion>, today: LocalDate, padding: P
                 MonthHeader(month, season, seasonStarts, showYear = month.year != today.year, first = first, inkFrom = inkFrom)
             }
             items(monthOccasions, key = { "${it.contactId}-${it.bucket}-${it.month}-${it.day}-${it.label}" }) { occasion ->
-                OccasionRow(occasion, today, dateFormat, Modifier.timeline(season.color(), seed = occasion.hashCode()))
+                OccasionRow(occasion, today, dateFormat, Modifier.clickable { onOpen(occasion) }.timeline(season.color(), seed = occasion.hashCode()))
             }
         }
+        item { Box(Modifier.fillMaxWidth().padding(top = 24.dp), Alignment.Center) { PolicyLinks() } }
     }
+}
+
+/** A filter chip as a card-stock pill with an ink outline; the chosen one is highlighted. */
+@Composable
+internal fun PaperChip(label: String, selected: Boolean, onClick: () -> Unit) {
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        label = { Text(label, fontWeight = FontWeight.Bold) },
+        shape = CircleShape,
+        colors = FilterChipDefaults.filterChipColors(containerColor = Paper.card, selectedContainerColor = Paper.highlighter),
+        border = FilterChipDefaults.filterChipBorder(
+            enabled = true,
+            selected = selected,
+            borderColor = Paper.ink,
+            selectedBorderColor = Paper.ink,
+            borderWidth = 1.5.dp,
+            selectedBorderWidth = 1.5.dp,
+        ),
+    )
 }
 
 private val TIMELINE_GUTTER = 32.dp
@@ -465,7 +503,7 @@ private fun OccasionRow(occasion: Occasion, today: LocalDate, dateFormat: DateTi
 }
 
 // Not translated: emoji read the same in every language. Screen readers skip them; the row text says the kind.
-private fun Bucket.emoji() = when (this) {
+internal fun Bucket.emoji() = when (this) {
     Bucket.BIRTHDAY -> "🎂"
     Bucket.ANNIVERSARY -> "💍"
     Bucket.OTHER -> "🎉"
@@ -473,7 +511,7 @@ private fun Bucket.emoji() = when (this) {
 
 /** "Birthday · Turns 30", "Anniversary · 5 years", or just the kind when the year is unknown. */
 @Composable
-private fun Occasion.describe(next: LocalDate): String {
+internal fun Occasion.describe(next: LocalDate): String {
     val kind = label ?: stringResource(
         when (bucket) {
             Bucket.BIRTHDAY -> R.string.kind_birthday
@@ -487,7 +525,7 @@ private fun Occasion.describe(next: LocalDate): String {
 }
 
 @Composable
-private fun whenText(days: Int) = when (days) {
+internal fun whenText(days: Int) = when (days) {
     0 -> stringResource(R.string.today)
     1 -> stringResource(R.string.tomorrow)
     else -> pluralStringResource(R.plurals.in_days, days, days)

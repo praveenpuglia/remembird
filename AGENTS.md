@@ -18,9 +18,9 @@ Remembird reads the dates saved on the user's contacts (birthdays, anniversaries
 ```
 shared/src/commonMain/.../Occasion.kt   # Occasion model, buckets, next-date / years maths
 app/src/main/java/com/praveenpuglia/remembird/
-├── MainActivity.kt                     # Permission flow, loads contacts, owns screen state
-├── ContactOccasions.kt                 # ContactsContract Event query + START_DATE parsing
-└── ui/                                 # Compose screens and theme
+├── MainActivity.kt                     # Permission flow, loads contacts, owns screen state, add-a-date hand-off
+├── ContactOccasions.kt                 # ContactsContract queries, START_DATE parsing/writing, the add-date intent
+└── ui/                                 # Compose screens (OccasionsScreen, ProfileScreen, AddDateScreen) and theme
 ```
 
 ## Commands
@@ -38,6 +38,7 @@ scripts/signoff.sh                                        # local CI signoff, se
 
 ### Privacy & Permissions
 - Permissions: `READ_CONTACTS` only. Add `POST_NOTIFICATIONS` when reminders land. **No `INTERNET` permission**; adding one needs a written reason in the PR.
+- Adding a date never writes contacts: the app builds the date, then opens the contacts app's editor with it filled in (`ContactOccasions.addDateIntent`, `ACTION_EDIT` + `Intents.Insert.DATA`) and the user saves there. The editor keeps one date per request, and Google Contacts accepts a missing year only on birthdays. Changing or removing a date opens the person's contact in the editor (`editIntent`); the API can't point it at one date.
 - Read contacts on demand; don't copy contact data into app storage unless a feature needs it. `allowBackup` stays off while the app stores nothing.
 - Logging: no PII (no names, dates or contact IDs in logs).
 - Every permission must degrade gracefully: denied → explain, permanently denied → offer settings.
@@ -77,3 +78,5 @@ scripts/signoff.sh unit       # unit tests (JVM + iOS simulator) + lint
 
 ## Release Process
 Manual: **Actions → Release → Run workflow**, pick a bump (`auto` reads Conventional Commits). It bumps `app/build.gradle.kts`, builds the signed APK + AAB, tags `vX.Y.Z` on `main`, publishes a GitHub Release and optionally uploads to Play. Needs the same secrets as Clean SMS: `RELEASE_TOKEN`, `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`, `KEY_PASSWORD`, `KEY_ALIAS`, `SERVICE_ACCOUNT_JSON`. Create a signing key with `./generate-keystore.sh`.
+
+The privacy policy and terms are `docs/privacy-policy.html` and `docs/tnc.html`, served by GitHub Pages from `main` `/docs` at `praveenpuglia.com/remembird/` (same setup as Clean SMS). The app links to both from the permission screen and the end of the list (`PolicyLinks`). Update them, with a new effective date, whenever the app starts using data differently (e.g. reminders).

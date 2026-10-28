@@ -20,4 +20,12 @@ class EventDateTest {
     @Test fun invalidDay() = assertNull(parseEventDate("1990-02-30"))
 
     @Test fun unknownFormat() = assertNull(parseEventDate("May 21, 1990"))
+
+    @Test fun writesFullDate() = assertEquals("1990-05-01", EventDate(5, 1, 1990).toStartDate())
+
+    @Test fun writesDateWithoutYear() = assertEquals("--02-29", EventDate(2, 29, null).toStartDate())
+
+    @Test fun writtenDatesReadBack() {
+        for (date in listOf(EventDate(12, 31, 2001), EventDate(2, 29, null))) assertEquals(date, parseEventDate(date.toStartDate()))
+    }
 }

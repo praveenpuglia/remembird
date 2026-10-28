@@ -1,0 +1,8 @@
+// Cloudflare Worker that serves docs/ (privacy policy and terms) at remembird.praveenpuglia.com.
+// Static files only; /privacy-policy serves privacy-policy.html.
+{
+  "name": "remembird",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./docs" },
+  "routes": [{ "pattern": "remembird.praveenpuglia.com", "custom_domain": true }]
+}
